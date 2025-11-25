@@ -36,7 +36,7 @@ export default function HowItWorks() {
           {steps.map((step, idx) => (
             <div
               key={step.title}
-              className="relative rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:-translate-y-1 hover:shadow-lg"
+              className="relative rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:-translate-y-1 hover:shadow-lg animate-fade-up"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-50 text-base font-semibold text-primary-700">
                 {idx + 1}

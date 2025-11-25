@@ -80,7 +80,7 @@ export default function LatestWords() {
               {words.map((word) => (
                 <article
                   key={word.id}
-                  className="group rounded-2xl border border-slate-100 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-lg"
+                  className="group rounded-2xl border border-slate-100 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-lg animate-fade-up"
                 >
                   <div className="flex items-start justify-between">
                     <div>

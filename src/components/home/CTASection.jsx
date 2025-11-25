@@ -14,13 +14,13 @@ export default function CTASection() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <Link
             href="/register"
-            className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-primary-700 shadow-soft transition hover:shadow-lg"
+            className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-primary-700 shadow-soft transition hover:shadow-lg hover:-translate-y-[2px]"
           >
             Create free account
           </Link>
           <Link
             href="/words"
-            className="inline-flex items-center justify-center rounded-full border border-white/70 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
+            className="inline-flex items-center justify-center rounded-full border border-white/70 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10 hover:-translate-y-[2px]"
           >
             Explore words
           </Link>

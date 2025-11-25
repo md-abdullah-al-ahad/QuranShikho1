@@ -38,7 +38,7 @@ export default function TestimonialsSection() {
           {testimonials.map((item) => (
             <article
               key={item.name}
-              className="relative rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:-translate-y-1 hover:shadow-lg"
+              className="relative rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:-translate-y-1 hover:shadow-lg animate-fade-up"
             >
               <FaQuoteLeft className="text-xl text-primary-400" />
               <p className="mt-3 text-sm text-slate-700">{item.quote}</p>
