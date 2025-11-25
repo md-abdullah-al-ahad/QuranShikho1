@@ -1,9 +1,8 @@
-const express = require('express');
+﻿const express = require('express');
 const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const AUTH_TOKEN = process.env.API_TOKEN || 'dev-token';
 
 // Middleware
 app.use(cors({ origin: 'http://localhost:3000' }));
@@ -80,14 +79,6 @@ let words = [
   },
 ];
 
-const requireAuth = (req, res, next) => {
-  const token = req.headers.authorization?.replace('Bearer ', '');
-  if (token !== AUTH_TOKEN) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-  return next();
-};
-
 app.get('/api/words', (req, res) => {
   res.json(words);
 });
@@ -100,7 +91,12 @@ app.get('/api/words/:id', (req, res) => {
   return res.json(word);
 });
 
-app.post('/api/words', requireAuth, (req, res) => {
+app.get('/api/words/user/:userId', (req, res) => {
+  const userWords = words.filter((w) => w.createdBy === req.params.userId);
+  res.json(userWords);
+});
+
+app.post('/api/words', (req, res) => {
   const {
     arabic,
     english,
@@ -133,7 +129,7 @@ app.post('/api/words', requireAuth, (req, res) => {
   return res.status(201).json(newWord);
 });
 
-app.delete('/api/words/:id', requireAuth, (req, res) => {
+app.delete('/api/words/:id', (req, res) => {
   const index = words.findIndex((w) => w.id === req.params.id);
   if (index === -1) {
     return res.status(404).json({ message: 'Word not found' });
