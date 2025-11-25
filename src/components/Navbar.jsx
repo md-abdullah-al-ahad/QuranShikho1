@@ -47,7 +47,14 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => (
+          {(currentUser
+            ? [
+                ...navLinks,
+                { href: "/add-word", label: "Add Word" },
+                { href: "/manage-words", label: "Manage Words" },
+              ]
+            : navLinks
+          ).map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -132,7 +139,14 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden">
           <div className="space-y-1 border-t border-slate-100 bg-white px-4 py-3 shadow-sm">
-            {navLinks.map((link) => (
+            {(currentUser
+              ? [
+                  ...navLinks,
+                  { href: "/add-word", label: "Add Word" },
+                  { href: "/manage-words", label: "Manage Words" },
+                ]
+              : navLinks
+            ).map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

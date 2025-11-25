@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import LoadingSpinner from "../LoadingSpinner";
+import ErrorMessage from "../ErrorMessage";
 
 export default function LatestWords() {
   const [words, setWords] = useState([]);
@@ -49,14 +51,28 @@ export default function LatestWords() {
         <div className="mt-8">
           {loading && (
             <div className="flex items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white py-12">
-              <p className="text-sm font-semibold text-slate-500">Loading latest words...</p>
+              <LoadingSpinner size="md" label="Loading latest words..." />
             </div>
           )}
 
           {error && !loading && (
-            <div className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
-              {error}
-            </div>
+            <ErrorMessage
+              message={error}
+              onRetry={() => {
+                setLoading(true);
+                setError("");
+                setWords([]);
+                // re-run useEffect by updating state
+                fetch("http://localhost:5000/api/words")
+                  .then((res) => res.json())
+                  .then((data) => {
+                    const latest = [...data].reverse().slice(0, 6);
+                    setWords(latest);
+                  })
+                  .catch((err) => setError(err.message || "Failed to load words"))
+                  .finally(() => setLoading(false));
+              }}
+            />
           )}
 
           {!loading && !error && (

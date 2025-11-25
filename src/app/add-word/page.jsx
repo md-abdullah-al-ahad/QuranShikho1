@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import axios from "axios";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import { useAuth } from "../../contexts/AuthContext";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -87,8 +86,6 @@ export default function AddWordPage() {
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-slate-50">
-        <Navbar />
-        <Toaster position="top-right" />
         <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-slate-900 mb-8">Add New Word</h1>
           <form
@@ -184,11 +181,7 @@ export default function AddWordPage() {
               />
             </div>
 
-            {error && (
-              <div className="rounded-lg border border-red-100 bg-red-50 px-3 py-2 text-sm text-red-700">
-                {error}
-              </div>
-            )}
+            {error && <ErrorMessage message={error} />}
 
             <button
               type="submit"
@@ -199,7 +192,6 @@ export default function AddWordPage() {
             </button>
           </form>
         </main>
-        <Footer />
       </div>
     </ProtectedRoute>
   );

@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# QuranShikho - AI-Powered Quran Learning Platform
 
-## Getting Started
+## Description
+QuranShikho is a Next.js platform to learn Quranic Arabic word by word. It blends curated vocabulary, contextual examples, and simple practice flows so learners can understand Quranic words with clarity.
 
-First, run the development server:
+## Features
+- Curated Quranic words with meanings, transliterations, and examples
+- Authenticated flows for adding and managing custom words
+- Protected routes for contributors (Add Word, Manage Words)
+- Responsive UI with gradients and reusable components
+- Search and filter words by difficulty and category
+- Word detail pages with pronunciation guidance and related terms
+- Latest words feed from the backend API
+- Firebase authentication (Email/Password + Google)
+- Express.js backend with in-memory word store (sample data)
+- Toast notifications, loading spinners, and friendly error states
 
+## Tech Stack
+- Next.js 14 (App Router)
+- Firebase Authentication
+- Express.js (Node.js API)
+- TailwindCSS
+- React Icons
+
+## Firebase Setup
+1. Create a Firebase project in the [Firebase Console](https://console.firebase.google.com/).
+2. Add a Web app; copy the config values (API key, auth domain, project ID, storage bucket, messaging sender ID, app ID).
+3. Enable authentication methods: **Authentication > Sign-in method** ? turn on **Email/Password** and **Google**.
+4. Add your config to `.env.local`:
+   ```
+   NEXT_PUBLIC_API_URL=http://localhost:5000
+   NEXT_PUBLIC_FIREBASE_API_KEY=your-firebase-api-key
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
+   NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
+   ```
+5. Restart `npm run dev` after editing env files.
+
+## Installation
+### Prerequisites
+- Node.js 18+
+- npm (comes with Node)
+
+### Clone and install (root)
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repo-url>
+cd quranshikho
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install server dependencies
+```bash
+npm install --prefix server
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment variables
+- Create `.env.local` in the repo root with your Firebase config (see above).
+- Create `server/.env` with:
+  ```
+  PORT=5000
+  ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Run development servers
+- Start the backend API: `npm run server`
+- Start Next.js: `npm run dev`
 
-## Learn More
+## Routes
+- Public: `/`, `/words`, `/words/[id]`, `/login`, `/register`
+- Protected: `/add-word`, `/manage-words`
 
-To learn more about Next.js, take a look at the following resources:
+## API Endpoints (Express)
+- `GET /api/words` — list all words
+- `GET /api/words/:id` — get a single word
+- `GET /api/words/user/:userId` — list words by creator
+- `POST /api/words` — add a word (expects body with arabic, english, etc.)
+- `DELETE /api/words/:id` — delete a word
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Screenshots
+- (Add homepage, words list, word detail, auth, and dashboard screenshots here.)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Future Features
+- Persistent database storage
+- Spaced-repetition review flow
+- Audio recitation for words/examples
+- User progress and achievements
+- Multi-language UI support
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+MIT

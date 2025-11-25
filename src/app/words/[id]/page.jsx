@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { FaPlay, FaSpinner } from "react-icons/fa";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
+import { FaPlay } from "react-icons/fa";
+import LoadingSpinner from "../../../components/LoadingSpinner";
+import ErrorMessage from "../../../components/ErrorMessage";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -50,7 +50,6 @@ export default function WordDetailPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
       <div className="bg-gradient-to-br from-primary-600 via-secondary-500 to-accent-400 text-white">
         <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
           <Link href="/words" className="text-sm font-semibold text-white/80 hover:text-white">
@@ -58,14 +57,9 @@ export default function WordDetailPage() {
           </Link>
           <div className="mt-6 text-center">
             {loading ? (
-              <div className="flex items-center justify-center gap-3 text-white">
-                <FaSpinner className="h-6 w-6 animate-spin" />
-                <span className="text-sm font-semibold">Loading word...</span>
-              </div>
+              <LoadingSpinner size="md" label="Loading word..." />
             ) : error ? (
-              <div className="rounded-xl bg-white/15 px-4 py-3 text-sm font-semibold text-white">
-                {error}. Ensure the API server is running.
-              </div>
+              <ErrorMessage message={`${error}. Ensure the API server is running.`} />
             ) : (
               <>
                 <p className="text-7xl font-bold text-white drop-shadow-sm">{word?.arabic || "—"}</p>
@@ -85,12 +79,7 @@ export default function WordDetailPage() {
       </div>
 
       <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
-        {loading && (
-          <div className="flex items-center justify-center gap-3 text-primary-600">
-            <FaSpinner className="h-6 w-6 animate-spin" />
-            <span className="text-sm font-semibold">Loading word details...</span>
-          </div>
-        )}
+        {loading && <LoadingSpinner size="md" label="Loading word details..." />}
 
         {!loading && !error && word && (
           <div className="space-y-8">
@@ -142,7 +131,6 @@ export default function WordDetailPage() {
           </div>
         )}
       </main>
-      <Footer />
     </div>
   );
 }

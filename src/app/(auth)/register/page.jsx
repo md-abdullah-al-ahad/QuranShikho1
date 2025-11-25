@@ -4,10 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useAuth } from "../../../contexts/AuthContext";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
+import ErrorMessage from "../../../components/ErrorMessage";
 
 export default function Page() {
   const { signup, loginWithGoogle, updateProfile } = useAuth();
@@ -75,8 +74,6 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
-      <Navbar />
-      <Toaster position="top-right" />
       <main className="mx-auto max-w-md px-4 py-12">
         <div className="mt-8 rounded-xl bg-white p-8 shadow-2xl">
           <h1 className="mb-6 text-center text-3xl font-bold text-slate-900">Create Your Account</h1>
@@ -137,11 +134,7 @@ export default function Page() {
               />
             </div>
 
-            {error && (
-              <div className="rounded-lg border border-red-100 bg-red-50 px-3 py-2 text-sm text-red-700">
-                {error}
-              </div>
-            )}
+            {error && <ErrorMessage message={error} />}
 
             <button
               type="submit"
@@ -176,7 +169,6 @@ export default function Page() {
           </p>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

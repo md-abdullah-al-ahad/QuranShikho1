@@ -2,9 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { FaSearch, FaSpinner } from "react-icons/fa";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import { FaSearch } from "react-icons/fa";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const difficultyStyles = {
   easy: "bg-green-100 text-green-800 border border-green-200",
@@ -66,7 +66,6 @@ export default function WordsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         <header className="mb-8">
           <h1 className="text-4xl font-bold text-slate-900">Explore Quranic Words</h1>
@@ -102,16 +101,25 @@ export default function WordsPage() {
         </div>
 
         {loading && (
-          <div className="flex items-center justify-center py-16 text-primary-600">
-            <FaSpinner className="h-6 w-6 animate-spin" />
-            <span className="ml-3 text-sm font-semibold">Loading words...</span>
+          <div className="py-16">
+            <LoadingSpinner size="md" label="Loading words..." />
           </div>
         )}
 
         {error && !loading && (
-          <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}. Please ensure the API server is running and NEXT_PUBLIC_API_URL is set correctly.
-          </div>
+          <ErrorMessage
+            message={`${error}. Please ensure the API server is running and NEXT_PUBLIC_API_URL is set correctly.`}
+            onRetry={() => {
+              setError("");
+              setLoading(true);
+              setWords([]);
+              fetch(`${apiBase}/api/words`)
+                .then((res) => res.json())
+                .then((data) => setWords(data || []))
+                .catch((err) => setError(err.message || "Failed to load words"))
+                .finally(() => setLoading(false));
+            }}
+          />
         )}
 
         {!loading && !error && (
@@ -163,7 +171,6 @@ export default function WordsPage() {
           </>
         )}
       </div>
-      <Footer />
     </div>
   );
 }
