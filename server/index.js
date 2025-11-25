@@ -1,103 +1,101 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const allowedOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
+const allowedOrigin = process.env.CLIENT_ORIGIN || "http://localhost:3000";
 
 // Middleware
 app.use(cors({ origin: allowedOrigin }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// In-memory data store
 let words = [
   {
-    id: '1',
-    arabic: 'السلام',
-    english: 'Peace',
-    transliteration: 'As-Salām',
-    meaning: 'Peace and security',
-    example: 'السلام عليكم',
-    category: 'Greetings',
-    difficulty: 'easy',
-    createdBy: 'system',
+    id: "1",
+    arabic: "السلام",
+    english: "Peace",
+    transliteration: "As-Salām",
+    meaning: "Peace and security",
+    example: "السلام عليكم",
+    category: "Greetings",
+    difficulty: "easy",
+    createdBy: "system",
   },
   {
-    id: '2',
-    arabic: 'الرحمن',
-    english: 'The Most Merciful',
-    transliteration: 'Ar-Raḥmān',
-    meaning: 'One of the names of Allah emphasizing mercy',
-    example: 'بسم الله الرحمن الرحيم',
-    category: 'Names',
-    difficulty: 'medium',
-    createdBy: 'system',
+    id: "2",
+    arabic: "الرحمن",
+    english: "The Most Merciful",
+    transliteration: "Ar-Raḥmān",
+    meaning: "One of the names of Allah emphasizing mercy",
+    example: "بسم الله الرحمن الرحيم",
+    category: "Names",
+    difficulty: "medium",
+    createdBy: "system",
   },
   {
-    id: '3',
-    arabic: 'الصلاة',
-    english: 'Prayer',
-    transliteration: 'As-Ṣalāh',
-    meaning: 'The ritual prayer performed five times a day',
-    example: 'الصلاة عماد الدين',
-    category: 'Worship',
-    difficulty: 'medium',
-    createdBy: 'system',
+    id: "3",
+    arabic: "الصلاة",
+    english: "Prayer",
+    transliteration: "As-Ṣalāh",
+    meaning: "The ritual prayer performed five times a day",
+    example: "الصلاة عماد الدين",
+    category: "Worship",
+    difficulty: "medium",
+    createdBy: "system",
   },
   {
-    id: '4',
-    arabic: 'الإيمان',
-    english: 'Faith',
-    transliteration: 'Al-Īmān',
-    meaning: 'Belief in Allah and His messengers',
-    example: 'الإيمان يزيد وينقص',
-    category: 'Belief',
-    difficulty: 'medium',
-    createdBy: 'system',
+    id: "4",
+    arabic: "الإيمان",
+    english: "Faith",
+    transliteration: "Al-Īmān",
+    meaning: "Belief in Allah and His messengers",
+    example: "الإيمان يزيد وينقص",
+    category: "Belief",
+    difficulty: "medium",
+    createdBy: "system",
   },
   {
-    id: '5',
-    arabic: 'الصبر',
-    english: 'Patience',
-    transliteration: 'As-Ṣabr',
-    meaning: 'Perseverance and patience',
-    example: 'الصبر مفتاح الفرج',
-    category: 'Character',
-    difficulty: 'easy',
-    createdBy: 'system',
+    id: "5",
+    arabic: "الصبر",
+    english: "Patience",
+    transliteration: "As-Ṣabr",
+    meaning: "Perseverance and patience",
+    example: "الصبر مفتاح الفرج",
+    category: "Character",
+    difficulty: "easy",
+    createdBy: "system",
   },
   {
-    id: '6',
-    arabic: 'التقوى',
-    english: 'Piety',
-    transliteration: 'At-Taqwā',
-    meaning: 'God-consciousness and righteousness',
-    example: 'إن أكرمكم عند الله أتقاكم',
-    category: 'Character',
-    difficulty: 'hard',
-    createdBy: 'system',
+    id: "6",
+    arabic: "التقوى",
+    english: "Piety",
+    transliteration: "At-Taqwā",
+    meaning: "God-consciousness and righteousness",
+    example: "إن أكرمكم عند الله أتقاكم",
+    category: "Character",
+    difficulty: "hard",
+    createdBy: "system",
   },
 ];
 
-app.get('/api/words', (req, res) => {
+app.get("/api/words", (req, res) => {
   res.json(words);
 });
 
-app.get('/api/words/:id', (req, res) => {
+app.get("/api/words/:id", (req, res) => {
   const word = words.find((w) => w.id === req.params.id);
   if (!word) {
-    return res.status(404).json({ message: 'Word not found' });
+    return res.status(404).json({ message: "Word not found" });
   }
   return res.json(word);
 });
 
-app.get('/api/words/user/:userId', (req, res) => {
+app.get("/api/words/user/:userId", (req, res) => {
   const userWords = words.filter((w) => w.createdBy === req.params.userId);
   res.json(userWords);
 });
 
-app.post('/api/words', (req, res) => {
+app.post("/api/words", (req, res) => {
   const {
     arabic,
     english,
@@ -106,23 +104,25 @@ app.post('/api/words', (req, res) => {
     example,
     category,
     difficulty,
-    createdBy = 'unknown',
+    createdBy = "unknown",
   } = req.body;
 
   if (!arabic || !english) {
-    return res.status(400).json({ message: 'arabic and english are required' });
+    return res.status(400).json({ message: "arabic and english are required" });
   }
 
-  const nextId = (words.length ? Number(words[words.length - 1].id) + 1 : 1).toString();
+  const nextId = (
+    words.length ? Number(words[words.length - 1].id) + 1 : 1
+  ).toString();
   const newWord = {
     id: nextId,
     arabic,
     english,
-    transliteration: transliteration || '',
-    meaning: meaning || '',
-    example: example || '',
-    category: category || 'General',
-    difficulty: difficulty || 'medium',
+    transliteration: transliteration || "",
+    meaning: meaning || "",
+    example: example || "",
+    category: category || "General",
+    difficulty: difficulty || "medium",
     createdBy,
   };
 
@@ -130,17 +130,17 @@ app.post('/api/words', (req, res) => {
   return res.status(201).json(newWord);
 });
 
-app.delete('/api/words/:id', (req, res) => {
+app.delete("/api/words/:id", (req, res) => {
   const index = words.findIndex((w) => w.id === req.params.id);
   if (index === -1) {
-    return res.status(404).json({ message: 'Word not found' });
+    return res.status(404).json({ message: "Word not found" });
   }
   const [deleted] = words.splice(index, 1);
-  return res.json({ message: 'Deleted', word: deleted });
+  return res.json({ message: "Deleted", word: deleted });
 });
 
 // Local dev server; in production Vercel/Node serverless wraps the app
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     // eslint-disable-next-line no-console
     console.log(`Server running on http://localhost:${PORT}`);
