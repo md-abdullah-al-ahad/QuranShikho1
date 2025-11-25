@@ -1,11 +1,12 @@
-﻿const express = require('express');
+const express = require('express');
 const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const allowedOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: allowedOrigin }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -138,7 +139,12 @@ app.delete('/api/words/:id', (req, res) => {
   return res.json({ message: 'Deleted', word: deleted });
 });
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// Local dev server; in production Vercel/Node serverless wraps the app
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

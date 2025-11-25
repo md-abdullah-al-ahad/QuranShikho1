@@ -1,4 +1,4 @@
-# QuranShikho - AI-Powered Quran Learning Platform
+ï»¿# QuranShikho - AI-Powered Quran Learning Platform
 
 ## Description
 QuranShikho is a Next.js platform to learn Quranic Arabic word by word. It blends curated vocabulary, contextual examples, and simple practice flows so learners can understand Quranic words with clarity.
@@ -25,7 +25,7 @@ QuranShikho is a Next.js platform to learn Quranic Arabic word by word. It blend
 ## Firebase Setup
 1. Create a Firebase project in the [Firebase Console](https://console.firebase.google.com/).
 2. Add a Web app; copy the config values (API key, auth domain, project ID, storage bucket, messaging sender ID, app ID).
-3. Enable authentication methods: **Authentication > Sign-in method** ? turn on **Email/Password** and **Google**.
+3. Enable authentication methods: **Authentication > Sign-in method** â†’ turn on **Email/Password** and **Google**.
 4. Add your config to `.env.local`:
    ```
    NEXT_PUBLIC_API_URL=http://localhost:5000
@@ -71,11 +71,11 @@ npm install --prefix server
 - Protected: `/add-word`, `/manage-words`
 
 ## API Endpoints (Express)
-- `GET /api/words` — list all words
-- `GET /api/words/:id` — get a single word
-- `GET /api/words/user/:userId` — list words by creator
-- `POST /api/words` — add a word (expects body with arabic, english, etc.)
-- `DELETE /api/words/:id` — delete a word
+- `GET /api/words` â€” list all words
+- `GET /api/words/:id` â€” get a single word
+- `GET /api/words/user/:userId` â€” list words by creator
+- `POST /api/words` â€” add a word (expects body with arabic, english, etc.)
+- `DELETE /api/words/:id` â€” delete a word
 
 ## Screenshots
 - (Add homepage, words list, word detail, auth, and dashboard screenshots here.)
@@ -89,3 +89,9 @@ npm install --prefix server
 
 ## License
 MIT
+
+## Deploying the API to Vercel (separate project)
+- Use the `server/` folder as the root of a new Vercel project.
+- Ensure env vars in Vercel: `CLIENT_ORIGIN=<your-frontend-domain>` (e.g., https://quran-shikho1.vercel.app).
+- Vercel will detect `server/vercel.json` and deploy `index.js` via `@vercel/node`.
+- The API URL will look like `https://<your-api-project>.vercel.app/api/words`; set `NEXT_PUBLIC_API_URL` in your frontend env to this value.
